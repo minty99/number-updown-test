@@ -105,7 +105,7 @@ class Clock extends React.Component<{}, { seconds: number }> {
   render() {
     return (
       <h6 className="display-6" style={{ textAlign: "center" }}>
-        {Math.floor(this.state.seconds / 60).toFixed(0).padStart(2, '0')}:{(this.state.seconds % 60).toString().padStart(2, '0')}
+        {Math.floor(this.state.seconds / 60).toString().padStart(2, '0')}:{(this.state.seconds % 60).toString().padStart(2, '0')}
       </h6>
     );
   }

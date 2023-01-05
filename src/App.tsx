@@ -1,80 +1,88 @@
+import React from 'react';
 import { Fragment } from 'react';
 import { Container, Button, Row, Col, ListGroupItem, ListGroup, ButtonGroup } from 'react-bootstrap';
 import './App.css';
+import { Problem, genProblem } from './problems';
 
-type ProblemType = {
-  statement: (n: number) => string,
-  answer: (a: number, b: number, n: number) => boolean,
+const LIGHT_GREEN: string = "#90EE90"
+const LIGHT_RED: string = "#EE9090"
+const WHITE: string = "#FFFFFF"
+
+type ProblemRowProps = { problem: Problem, index: number, showAnswer: boolean }
+type ProblemRowState = { solved: boolean, selected: boolean }
+
+class ProblemRow extends React.Component<ProblemRowProps, ProblemRowState> {
+  constructor(props: ProblemRowProps) {
+    super(props);
+    this.state = {
+      solved: false,
+      selected: true
+    }
+  }
+
+  bgColor() {
+    if (!this.state.solved) return WHITE
+    else if (this.props.problem.answer === this.state.selected) return LIGHT_GREEN
+    else return LIGHT_RED
+  }
+
+  render() {
+    let a = this.props.problem.a
+    let b = this.props.problem.b
+    let statement = this.props.problem.statement
+    let finished = this.state.solved || this.props.showAnswer
+    let reason = this.props.problem.reason
+    return (
+      <ListGroupItem style={{ backgroundColor: this.bgColor() }}>
+        <Row className="text-center align-items-center">
+          <Col xs={3}><p style={{ margin: 0 }}>A = {a}</p></Col>
+          <Col xs={3}><p style={{ margin: 0 }}>B = {b}</p></Col>
+          <Col xs={3}><p style={{ margin: 0 }}>{statement}</p></Col>
+          <Col xs={3}>
+            <ButtonGroup style={{ display: (!finished) ? "flex" : "none" }}>
+              <Button variant="success" onClick={_ => this.setState({ solved: true, selected: true })}>Y</Button>
+              <Button variant="danger" onClick={_ => this.setState({ solved: true, selected: false })}>N</Button>
+            </ButtonGroup>
+            <Button disabled={true} style={{ width: "100%", display: (finished) ? "block" : "none" }}>정답: {this.props.problem.answer ? "Y" : "N"} ({reason})</Button>
+          </Col>
+        </Row>
+      </ListGroupItem>
+    )
+  }
 }
-const Increase: ProblemType = { statement: (n: number) => `${n}% 이상 증가하였다.`, answer: (a, b, n) => ((b / a) >= (1 + n / 100)) }
-const Decrease: ProblemType = { statement: (n: number) => `${n}% 이상 감소하였다.`, answer: (a, b, n) => ((b / a) <= (1 - n / 100)) }
-const Over: ProblemType = { statement: (n: number) => `${n}배가 넘는다.`, answer: (a, b, n) => ((b / a) >= n) }
-const IncreaseEqual: ProblemType = { statement: (n: number) => `증가량이 ${n}%이다.`, answer: (a, b, n) => true } // TODO answer checker
-const DecreaseEqual: ProblemType = { statement: (n: number) => `감소량이 ${n}%이다.`, answer: (a, b, n) => true } // TODO answer checker
-const IncreaseLess: ProblemType = { statement: (n: number) => `증가량이 ${n}%보다 적다.`, answer: (a, b, n) => true } // TODO answer checker
-const DecreaseMore: ProblemType = { statement: (n: number) => `감소량이 ${n}%보다 크다.`, answer: (a, b, n) => true } // TODO answer checker
 
-const ProblemTypes: ProblemType[] = [
-  Increase,
-  Decrease,
-  Over,
-  IncreaseEqual,
-  DecreaseEqual,
-  IncreaseLess,
-  DecreaseMore,
-]
+type ProblemListProps = { n: number }
+type ProblemListState = { showAnswer: boolean, problems: Problem[] }
 
-interface Problem {
-  a: number,
-  b: number,
-  statement: string,
-  answer: boolean,
-}
+class ProblemList extends React.Component<ProblemListProps, ProblemListState> {
+  constructor(props: ProblemListProps) {
+    super(props);
+    this.state = {
+      showAnswer: false,
+      problems: Array.from(Array(this.props.n).keys()).map(genProblem)
+    }
+  }
 
-function getProblem(): Problem {
-  let a: number = Math.round(Math.random() * 1000000)
-  let b: number = Math.round(Math.random() * 1000000)
-  let n: number = Math.round(Math.random() * 100)
-  let problem: ProblemType = ProblemTypes[Math.floor(Math.random() * ProblemTypes.length)]
-  let statement: string = problem.statement(n)
-  let answer = problem.answer(a, b, n)
-  return { a: a, b: b, statement: statement, answer: answer }
-}
-
-function getProblems(n: number): Problem[] {
-  let problems: Problem[] = Array.from(Array(n).keys()).map(_ => getProblem())
-  return problems
-}
-
-function problemToJSX(p: Problem, idx: number): JSX.Element {
-  // TODO save background color as a state
-  return (
-    <Row className="text-center align-items-center" key={idx.toString()}>
-      <Col xs={3}><p style={{ margin: 0 }}>A = {p.a}</p></Col>
-      <Col xs={3}><p style={{ margin: 0 }}>B = {p.b}</p></Col>
-      <Col xs={3}><p style={{ margin: 0 }}>{p.statement}</p></Col>
-      <Col>
-        <ButtonGroup>
-          <Button variant="primary" onClick={_ => console.log(p.answer === true)}>Y</Button>
-          <Button variant="primary" onClick={_ => console.log(p.answer === false)}>N</Button>
-        </ButtonGroup>
-      </Col>
-    </Row>
-  )
+  render() {
+    return (
+      <Fragment>
+        <ListGroup>
+          {this.state.problems.map((p, idx) => <ProblemRow problem={p} index={idx} showAnswer={this.state.showAnswer} />)}
+        </ListGroup>
+        <Button variant="primary" onClick={_ => this.setState({ showAnswer: true })}>모든 문제 답 보기</Button>
+      </Fragment>
+    )
+  }
 }
 
 function App() {
-  let problems: JSX.Element[] = getProblems(10).map((p, idx) => <ListGroupItem>{problemToJSX(p, idx)}</ListGroupItem>)
-
   return (
     <Fragment>
-      <Container style={{ width: "60vw", height: "100vh", flex: "1 0 0", display: "flex", flexDirection: "column", justifyContent: "center", overflow: "auto", gap: 10 }}>
+      <Container style={{ width: "50vw", height: "100vh", flex: "1 0 0", display: "flex", flexDirection: "column", justifyContent: "center", overflow: "auto", gap: 10 }}>
         <h5 className="display-5" style={{ textAlign: "center" }}>
-          Number updown game
+          Number Updown Game
         </h5>
-        <ListGroup>
-          {problems}
-        </ListGroup>
+        <ProblemList n={10} />
       </Container>
     </Fragment>
   );

@@ -76,6 +76,42 @@ class ProblemList extends React.Component<ProblemListProps, ProblemListState> {
   }
 }
 
+class Clock extends React.Component<{}, { seconds: number }> {
+  timerId: NodeJS.Timer | undefined
+
+  constructor(props: {}) {
+    super(props);
+    this.state = { seconds: 0 };
+    this.timerId = undefined
+  }
+
+  componentDidMount() {
+    this.timerId = setInterval(
+      () => this.tick(),
+      1000
+    );
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerId);
+  }
+
+  tick() {
+    this.setState(state => ({
+      seconds: state.seconds + 1
+    }));
+  }
+
+  render() {
+    return (
+      <h6 className="display-6" style={{ textAlign: "center" }}>
+        {Math.floor(this.state.seconds / 60).toFixed(0).padStart(2, '0')}:{(this.state.seconds % 60).toString().padStart(2, '0')}
+      </h6>
+    );
+  }
+}
+
+
 function App() {
   return (
     <Fragment>
@@ -83,6 +119,7 @@ function App() {
         <h5 className="display-5" style={{ textAlign: "center" }}>
           Number Updown Game
         </h5>
+        <Clock />
         <ProblemList n={10} />
       </Container>
     </Fragment>

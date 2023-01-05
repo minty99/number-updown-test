@@ -40,10 +40,10 @@ class ProblemRow extends React.Component<ProblemRowProps, ProblemRowState> {
           <Col xs={3}><p style={{ margin: 0 }}>{statement}</p></Col>
           <Col xs={3}>
             <ButtonGroup style={{ display: (!finished) ? "flex" : "none" }}>
-              <Button variant="success" onClick={_ => this.setState({ solved: true, selected: true })}>Y</Button>
-              <Button variant="danger" onClick={_ => this.setState({ solved: true, selected: false })}>N</Button>
+              <Button variant="success" onClick={() => this.setState({ solved: true, selected: true })}>Yes</Button>
+              <Button variant="danger" onClick={() => this.setState({ solved: true, selected: false })}>No</Button>
             </ButtonGroup>
-            <Button disabled={true} style={{ width: "100%", display: (finished) ? "block" : "none" }}>정답: {this.props.problem.answer ? "Y" : "N"} ({reason})</Button>
+            <Button disabled={true} style={{ width: "100%", display: (finished) ? "block" : "none" }}>정답: {this.props.problem.answer ? "Yes" : "No"} ({reason})</Button>
           </Col>
         </Row>
       </ListGroupItem>
@@ -69,7 +69,8 @@ class ProblemList extends React.Component<ProblemListProps, ProblemListState> {
         <ListGroup>
           {this.state.problems.map((p, idx) => <ProblemRow problem={p} index={idx} showAnswer={this.state.showAnswer} />)}
         </ListGroup>
-        <Button variant="primary" onClick={_ => this.setState({ showAnswer: true })}>모든 문제 답 보기</Button>
+        <Button variant="primary" onClick={() => this.setState({ showAnswer: true })}>모든 문제 답 보기</Button>
+        <Button variant="primary" onClick={() => window.location.reload()}>다음 문제 보기</Button>
       </Fragment>
     )
   }
@@ -78,7 +79,7 @@ class ProblemList extends React.Component<ProblemListProps, ProblemListState> {
 function App() {
   return (
     <Fragment>
-      <Container style={{ width: "50vw", height: "100vh", flex: "1 0 0", display: "flex", flexDirection: "column", justifyContent: "center", overflow: "auto", gap: 10 }}>
+      <Container style={{ width: "60vw", height: "100vh", flex: "1 0 0", display: "flex", flexDirection: "column", justifyContent: "center", overflow: "auto", gap: 10 }}>
         <h5 className="display-5" style={{ textAlign: "center" }}>
           Number Updown Game
         </h5>

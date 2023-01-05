@@ -18,17 +18,17 @@ class IncreaseMore implements Problem {
     constructor() {
         this.answer = Math.random() >= 0.5
         let n = Math.ceil(randInt(1, 10)) * 10 // 10, 20, ..., 90
-        let a = Math.round(Math.pow(10, randFloat(0, 8)))
+        let a = Math.round(Math.pow(10, randFloat(2, 8)))
         let threshold = a * (1 + (n / 100))
         var b: number
         if (this.answer === true) {
-            let left = threshold * (1 + 0.001)
-            let right = threshold * (1 + 0.02)
+            let left = threshold * (1 + 0.005)
+            let right = threshold * (1 + 0.025)
             b = randInt(left, right)
         }
         else {
-            let left = threshold * (1 - 0.02)
-            let right = threshold * (1 - 0.001)
+            let left = threshold * (1 - 0.025)
+            let right = threshold * (1 - 0.005)
             b = randInt(left, right)
             if (b === threshold) b--
         }
@@ -53,17 +53,17 @@ class DecreaseMore implements Problem {
     constructor() {
         this.answer = Math.random() >= 0.5
         let n = randInt(1, 10) * 10 // 10, 20, ..., 90
-        let a = Math.round(Math.pow(10, randFloat(0, 8)))
+        let a = Math.round(Math.pow(10, randFloat(2, 8)))
         var b: number
         let threshold = a * (1 - (n / 100))
         if (this.answer === true) {
-            let left = threshold * (1 - 0.02)
-            let right = threshold * (1 - 0.001)
+            let left = threshold * (1 - 0.025)
+            let right = threshold * (1 - 0.005)
             b = randInt(left, right)
         }
         else {
-            let left = threshold * (1 + 0.001)
-            let right = threshold * (1 + 0.02)
+            let left = threshold * (1 + 0.005)
+            let right = threshold * (1 + 0.025)
             b = randInt(left, right)
             if (b === threshold) b++
         }
@@ -88,18 +88,18 @@ class IncreaseLess implements Problem {
     constructor() {
         this.answer = Math.random() >= 0.5
         let n = Math.ceil(randInt(1, 10)) * 10 // 10, 20, ..., 90
-        let a = Math.round(Math.pow(10, randFloat(0, 8)))
+        let a = Math.round(Math.pow(10, randFloat(2, 8)))
         let threshold = a * (1 + (n / 100))
         var b: number
         if (this.answer === true) {
-            let left = threshold * (1 - 0.02)
-            let right = threshold * (1 - 0.001)
+            let left = threshold * (1 - 0.025)
+            let right = threshold * (1 - 0.005)
             b = randInt(left, right)
             if (b === threshold) b--
         }
         else {
-            let left = threshold * (1 + 0.001)
-            let right = threshold * (1 + 0.02)
+            let left = threshold * (1 + 0.005)
+            let right = threshold * (1 + 0.025)
             b = randInt(left, right)
         }
         this.a = a.toLocaleString('en-US')
@@ -123,18 +123,18 @@ class DecreaseLess implements Problem {
     constructor() {
         this.answer = Math.random() >= 0.5
         let n = randInt(1, 10) * 10 // 10, 20, ..., 90
-        let a = Math.round(Math.pow(10, randFloat(0, 8)))
+        let a = Math.round(Math.pow(10, randFloat(2, 8)))
         var b: number
         let threshold = a * (1 - (n / 100))
         if (this.answer === true) {
-            let left = threshold * (1 + 0.001)
-            let right = threshold * (1 + 0.02)
+            let left = threshold * (1 + 0.005)
+            let right = threshold * (1 + 0.025)
             b = randInt(left, right)
             if (b === threshold) b++
         }
         else {
-            let left = threshold * (1 - 0.02)
-            let right = threshold * (1 - 0.001)
+            let left = threshold * (1 - 0.025)
+            let right = threshold * (1 - 0.005)
             b = randInt(left, right)
         }
         this.a = a.toLocaleString('en-US')
@@ -158,18 +158,18 @@ class MultipleMore implements Problem {
     constructor() {
         this.answer = Math.random() >= 0.5
         let n = randInt(2, 10) // 2, 3, ..., 9
-        let a = Math.round(Math.pow(10, randFloat(0, 8)))
+        let a = Math.round(Math.pow(10, randFloat(2, 8)))
         var b: number
         let threshold = a * n
         if (this.answer === true) {
-            let left = threshold * (1 + 0.001)
-            let right = threshold * (1 + 0.03)
+            let left = threshold * (1 + 0.005)
+            let right = threshold * (1 + 0.025)
             b = randInt(left, right)
-            if (b == threshold) b++
+            if (b === threshold) b++
         }
         else {
-            let left = threshold * (1 - 0.03)
-            let right = threshold * (1 - 0.001)
+            let left = threshold * (1 - 0.025)
+            let right = threshold * (1 - 0.005)
             b = randInt(left, right)
         }
         this.a = a.toLocaleString('en-US')
@@ -193,7 +193,7 @@ class IncreaseEqual implements Problem {
     constructor() {
         this.answer = Math.random() >= 0.5
         let n = Math.ceil(randInt(1, 10)) * 10 // 10, 20, ..., 90
-        let a = Math.round(Math.pow(10, randFloat(0, 8)))
+        let a = Math.round(Math.pow(10, randFloat(2, 8)))
         var b: number
         let threshold = a * (1 + (n / 100))
         if (this.answer === true) {
@@ -201,16 +201,16 @@ class IncreaseEqual implements Problem {
         }
         else {
             if (randBool()) {
-                let left = threshold * (1 + 0.001)
-                let right = threshold * (1 + 0.03)
+                let left = threshold * (1 + 0.005)
+                let right = threshold * (1 + 0.025)
                 b = randInt(left, right)
-                if (b == Math.round(threshold)) b++
+                if (b === Math.round(threshold)) b++
             }
             else {
-                let left = threshold * (1 - 0.001)
-                let right = threshold * (1 - 0.03)
+                let left = threshold * (1 - 0.005)
+                let right = threshold * (1 - 0.025)
                 b = randInt(left, right)
-                if (b == Math.round(threshold)) b--
+                if (b === Math.round(threshold)) b--
             }
         }
         this.a = a.toLocaleString('en-US')
@@ -234,7 +234,7 @@ class DecreaseEqual implements Problem {
     constructor() {
         this.answer = Math.random() >= 0.5
         let n = Math.ceil(randInt(1, 10)) * 10 // 10, 20, ..., 90
-        let a = Math.round(Math.pow(10, randFloat(0, 8)))
+        let a = Math.round(Math.pow(10, randFloat(2, 8)))
         let threshold = a * (1 - (n / 100))
         var b: number
         if (this.answer === true) {
@@ -242,16 +242,16 @@ class DecreaseEqual implements Problem {
         }
         else {
             if (randBool()) {
-                let left = threshold * (1 + 0.001)
-                let right = threshold * (1 + 0.03)
+                let left = threshold * (1 + 0.005)
+                let right = threshold * (1 + 0.025)
                 b = randInt(left, right)
-                if (b == Math.round(threshold)) b++
+                if (b === Math.round(threshold)) b++
             }
             else {
-                let left = threshold * (1 - 0.001)
-                let right = threshold * (1 - 0.03)
+                let left = threshold * (1 - 0.005)
+                let right = threshold * (1 - 0.025)
                 b = randInt(left, right)
-                if (b == Math.round(threshold)) b--
+                if (b === Math.round(threshold)) b--
             }
         }
         this.a = a.toLocaleString('en-US')
@@ -279,14 +279,14 @@ class FractionA implements Problem {
         if (randBool()) {
             b1 = Math.round(a1 * Math.pow(10, randFloat(0, 0.06)))
             b2 = Math.round(a2 * Math.pow(10, randFloat(0, 0.06)))
-            if (a1 == b1) b1++
-            if (a2 == b2) b2++
+            if (a1 === b1) b1++
+            if (a2 === b2) b2++
         }
         else {
             b1 = Math.round(a1 * Math.pow(10, randFloat(-0.06, 0)))
             b2 = Math.round(a2 * Math.pow(10, randFloat(-0.06, 0)))
-            if (a1 == b1) b1--
-            if (a2 == b2) b2--
+            if (a1 === b1) b1--
+            if (a2 === b2) b2--
         }
         if (a1 / a2 > b1 / b2) this.answer = true
         else this.answer = false
@@ -316,14 +316,14 @@ class FractionB implements Problem {
         if (randBool()) {
             b1 = Math.round(a1 * Math.pow(10, randFloat(0, 0.08)))
             b2 = Math.round(a2 * Math.pow(10, randFloat(0, 0.08)))
-            if (a1 == b1) b1++
-            if (a2 == b2) b2++
+            if (a1 === b1) b1++
+            if (a2 === b2) b2++
         }
         else {
             b1 = Math.round(a1 * Math.pow(10, randFloat(-0.08, 0)))
             b2 = Math.round(a2 * Math.pow(10, randFloat(-0.08, 0)))
-            if (a1 == b1) b1--
-            if (a2 == b2) b2--
+            if (a1 === b1) b1--
+            if (a2 === b2) b2--
         }
         if (a1 / a2 < b1 / b2) this.answer = true
         else this.answer = false

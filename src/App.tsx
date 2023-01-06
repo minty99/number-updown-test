@@ -115,7 +115,7 @@ class Clock extends React.Component<{}, { seconds: number }> {
 function App() {
   return (
     <Fragment>
-      <Container style={{ width: "60vw", height: "100vh", flex: "1 0 0", display: "flex", flexDirection: "column", justifyContent: "center", overflow: "auto", gap: 10 }}>
+      <Container style={{ width: "75vw", height: "100vh", flex: "1 0 0", display: "flex", flexDirection: "column", justifyContent: "center", overflow: "auto", gap: 10 }}>
         <h5 className="display-5" style={{ textAlign: "center" }}>
           Number Updown Game
         </h5>
